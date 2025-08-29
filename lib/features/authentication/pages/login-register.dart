@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:magus/features/authentication/auth_service.dart';
-import '../auth_service.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class LogRegPage extends StatefulWidget {
   const LogRegPage({super.key});
@@ -27,10 +25,7 @@ class LogRegPageState extends State<LogRegPage> {
 
   void _showGoogleSignInError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red.shade700,
-      ),
+      SnackBar(content: Text(message), backgroundColor: Colors.red.shade700),
     );
   }
 
@@ -253,9 +248,16 @@ class LogRegPageState extends State<LogRegPage> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.g_mobiledata, color: Colors.red.shade700, size: 24),
+                    Icon(
+                      Icons.g_mobiledata,
+                      color: Colors.red.shade700,
+                      size: 24,
+                    ),
                     SizedBox(width: 4),
-                    Text('Google', style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'Google',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
@@ -322,12 +324,19 @@ class LogRegPageState extends State<LogRegPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.error_outline, color: Colors.red.shade700, size: 20),
+                  Icon(
+                    Icons.error_outline,
+                    color: Colors.red.shade700,
+                    size: 20,
+                  ),
                   SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       _registerErrorMessage!,
-                      style: TextStyle(color: Colors.red.shade700, fontSize: 15),
+                      style: TextStyle(
+                        color: Colors.red.shade700,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
                 ],

@@ -4,7 +4,6 @@ import 'package:magus/core/home.dart';
 import 'package:magus/features/authentication/auth_service.dart';
 import 'package:magus/features/authentication/pages/loading.dart';
 import 'package:magus/features/authentication/pages/login-register.dart';
-import 'package:magus/features/authentication/pages/newUser.dart';
 
 class AuthRoute extends StatelessWidget {
   const AuthRoute({super.key});

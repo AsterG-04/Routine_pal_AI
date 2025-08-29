@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 class NewUserWelcomePage extends StatelessWidget {
+  const NewUserWelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Welcome!'),
-      ),
+      appBar: AppBar(title: const Text('Welcome!')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -29,8 +28,7 @@ class NewUserWelcomePage extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               ElevatedButton(
-                onPressed: () {
-                },
+                onPressed: () {},
                 child: const Text('Get Started'),
               ),
             ],
