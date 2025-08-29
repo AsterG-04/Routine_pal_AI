@@ -7,11 +7,15 @@ class AuthService {
       FirebaseAuth.instance.authStateChanges();
 
   Future<bool> isNewUser(String uid) async {
-    final doc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .get();
-    return !doc.exists;
+    final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    if (!doc.exists) return false; // No data, treat as new user
+
+    final data = doc.data();
+    // Check for required fields
+    if (data == null || data['name'] == null || data['email'] == null) {
+      return false; // Missing required data, treat as new user
+    }
+    return true; // User has data
   }
 
   Future<User?> signInWithEmailAndPassword(

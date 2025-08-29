@@ -4,6 +4,7 @@ import 'package:magus/core/home.dart';
 import 'package:magus/features/authentication/auth_service.dart';
 import 'package:magus/features/authentication/pages/loading.dart';
 import 'package:magus/features/authentication/pages/login-register.dart';
+import 'package:magus/features/authentication/pages/newUser.dart';
 
 class AuthRoute extends StatelessWidget {
   const AuthRoute({super.key});
@@ -24,10 +25,11 @@ class AuthRoute extends StatelessWidget {
               future: AuthService().isNewUser(user.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.data == true) {
+                  final isNewUser = snapshot.data ?? false;
+                  if (isNewUser) {
                     return HomePage();
                   } else {
-                    return HomePage();
+                    return NewUserWelcomePage();
                   }
                 }
                 return CircularProgressIndicator();
