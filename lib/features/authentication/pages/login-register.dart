@@ -23,12 +23,6 @@ class LogRegPageState extends State<LogRegPage> {
 
   String? _registerErrorMessage;
 
-  void _showGoogleSignInError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.red.shade700),
-    );
-  }
-
   // Functions
   Future<void> _login() async {
     User? user = await _auth.signInWithEmailAndPassword(

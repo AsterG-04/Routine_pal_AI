@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import "package:magus/firebase_options.dart";
+import 'package:firebase_core/firebase_core.dart';
 
 class AuthService {
   Stream<User?> get authStateChanges =>
@@ -79,6 +81,9 @@ class AuthService {
 
   Future<User?> signInWithGoogle() async {
     try {
+      // Ensure Firebase is initialized with firebase_options
+      await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
       final googleSignIn = GoogleSignIn.instance;
       await googleSignIn.initialize();
       await googleSignIn.signOut(); // Always show account picker
@@ -87,17 +92,12 @@ class AuthService {
       final credential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
       );
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      return userCredential.user;
     } catch (e) {
-      if (e is GoogleSignInException &&
-          e.code == GoogleSignInExceptionCode.canceled) {
-        // User cancelled, show a message or ignore
-      } else {
-        // Handle other errors
-        print('Error during Google sign in: $e');
-      }
+      print('Error during Google sign in: $e');
+      return null;
     }
-    return null;
   }
 
   Future<void> signOut() async {

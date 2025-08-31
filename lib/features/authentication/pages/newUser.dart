@@ -41,7 +41,7 @@ class NewUserWelcomePage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                'We\'re excited to help you build healthy routines. Let\'s get started!',
+                'Welcome Routine Pal',
                 style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
