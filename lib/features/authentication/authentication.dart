@@ -24,16 +24,28 @@ class AuthRoute extends StatelessWidget {
             return FutureBuilder<bool>(
               future: AuthService().isNewUser(user.uid),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  final isNewUser = snapshot.data ?? false;
-                  if (isNewUser) {
-                    return HomePage();
-                  } else {
-                    return NewUserWelcomePage();
-                  }
+              if(snapshot.hasError){
+                return Scaffold(
+                  body: Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  ),
+                );
+              }
+              else if(snapshot.hasData){
+                final isNewUser = snapshot.data!;
+                if(isNewUser){
+                  return NewUserWelcomePage();
+                } else {
+                  return HomePage();
                 }
-                return CircularProgressIndicator();
-              },
+              } else {
+                return Scaffold(
+                  body: Center(
+                    child: Text('Unexpected state'),
+                  ),
+                );
+              }
+              }
             );
           }
         }

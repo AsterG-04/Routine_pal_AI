@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import "package:magus/firebase_options.dart";
-import 'package:firebase_core/firebase_core.dart';
 
 class AuthService {
   Stream<User?> get authStateChanges =>
@@ -13,8 +11,9 @@ class AuthService {
     if (!doc.exists) return false; // No data, treat as new user
 
     final data = doc.data();
+    print("Theeeeeseeeeee are User data: $data");
     // Check for required fields
-    if (data == null || data['name'] == null || data['email'] == null) {
+    if (data != null) {
       return false; // Missing required data, treat as new user
     }
     return true; // User has data
@@ -79,28 +78,57 @@ class AuthService {
     }
   }
 
-  Future<User?> signInWithGoogle() async {
-    try {
-      // Ensure Firebase is initialized with firebase_options
-      await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-      final googleSignIn = GoogleSignIn.instance;
-      await googleSignIn.initialize();
-      await googleSignIn.signOut(); // Always show account picker
-      final googleUser = await googleSignIn.authenticate();
-      final googleAuth = googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-      );
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-      return userCredential.user;
-    } catch (e) {
-      print('Error during Google sign in: $e');
-      return null;
+Future<UserCredential> signInWithGoogle() async {
+  final googleSignIn = GoogleSignIn.instance;
+  await googleSignIn.initialize();
+  try {
+    final googleUser = await googleSignIn.authenticate();
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+    );
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  } on GoogleSignInException catch (e) {
+    if (e.code == GoogleSignInExceptionCode.canceled) {
+      print('Google sign-in canceled by user.');
+    } else {
+      print('Google sign-in error: $e');
     }
+    rethrow; // Rethrow the exception if not handled
+  }
   }
 
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 }
+
+Future<UserCredential> signInWithEmail(String email, String password) {
+  return FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+}
+
+Future<UserCredential?> signInWithGoogle() async {
+  try {
+    final googleSignIn = GoogleSignIn.instance;
+    await googleSignIn.initialize();
+    final googleUser = await googleSignIn.authenticate();
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+    );
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  } on GoogleSignInException catch (e) {
+    if (e.code == GoogleSignInExceptionCode.canceled) {
+      print('Google sign-in canceled by user.');
+      return null;
+    } else {
+      print('Google sign-in error: $e');
+      return null;
+    }
+  } catch (e) {
+    print('Unexpected error during Google sign-in: $e');
+    return null;
+  }
+}
+
+
