@@ -11,7 +11,6 @@ class AuthService {
     if (!doc.exists) return false; // No data, treat as new user
 
     final data = doc.data();
-    print("Theeeeeseeeeee are User data: $data");
     // Check for required fields
     if (data != null) {
       return false; // Missing required data, treat as new user
@@ -83,7 +82,7 @@ Future<UserCredential> signInWithGoogle() async {
   await googleSignIn.initialize();
   try {
     final googleUser = await googleSignIn.authenticate();
-    final googleAuth = await googleUser.authentication;
+    final googleAuth = googleUser.authentication;
     final credential = GoogleAuthProvider.credential(
       idToken: googleAuth.idToken,
     );
@@ -112,7 +111,7 @@ Future<UserCredential?> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn.instance;
     await googleSignIn.initialize();
     final googleUser = await googleSignIn.authenticate();
-    final googleAuth = await googleUser.authentication;
+    final googleAuth = googleUser.authentication;
     final credential = GoogleAuthProvider.credential(
       idToken: googleAuth.idToken,
     );
