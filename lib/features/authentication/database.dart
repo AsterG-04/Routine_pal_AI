@@ -57,7 +57,6 @@ class DatabaseHelper {
       )
     ''');
 
-
   }
 
   Future close() async {
