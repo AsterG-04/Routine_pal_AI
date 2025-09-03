@@ -39,7 +39,7 @@ class DatabaseHelper {
         routine_id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         description TEXT,
-        favorite INTEGER NOT NULL DEFAULT 0,
+        favorite BOOLEAN DEFAULT false,
         created_at TEXT NOT NULL,
         updated_at TEXT NOT NULL
       )

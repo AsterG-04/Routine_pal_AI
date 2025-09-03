@@ -73,60 +73,74 @@ class LogRegPageState extends State<LogRegPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 24),
-            Text(
-              'Swipe to Login or Register',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue.shade700,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 106, 163, 255), // Top color
+              Color.fromARGB(255, 0, 0, 0),
+               Color.fromARGB(255, 0, 0, 0),
+               Color.fromARGB(255, 14, 87, 203), // Bottom color
+            ],
+            stops: [0.0,0.45, 0.55, 1.0],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              SizedBox(height: 24),
+              Text(
+                'Swipe to Login or Register',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.shade700,
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            Expanded(
-              child: AnimatedBuilder(
-                animation: _pageController,
-                builder: (context, child) {
-                  return PageView.builder(
-                    controller: _pageController,
-                    itemCount: 2,
-                    physics: BouncingScrollPhysics(), // Add this line
-                    itemBuilder: (context, index) {
-                      double currentPage = 0;
-                      try {
-                        currentPage =
-                            _pageController.hasClients &&
-                                _pageController.page != null
-                            ? _pageController.page!
-                            : _pageController.initialPage.toDouble();
-                      } catch (_) {}
-                      double scale = 1.0;
-                      scale = 0.92 + (1 - (currentPage - index).abs()) * 0.08;
-                      scale = scale.clamp(0.92, 1.0);
-                      return Center(
-                        child: Transform.scale(
-                          scale: scale,
-                          child: SizedBox(
-                            width: 400,
-                            height: 520,
-                            child: SingleChildScrollView(
-                              child: index == 0
-                                  ? _buildLoginContainer()
-                                  : _buildRegisterContainer(),
+              SizedBox(height: 16),
+              Expanded(
+                child: AnimatedBuilder(
+                  animation: _pageController,
+                  builder: (context, child) {
+                    return PageView.builder(
+                      controller: _pageController,
+                      itemCount: 2,
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        double currentPage = 0;
+                        try {
+                          currentPage =
+                              _pageController.hasClients &&
+                                      _pageController.page != null
+                                  ? _pageController.page!
+                                  : _pageController.initialPage.toDouble();
+                        } catch (_) {}
+                        double scale = 1.0;
+                        scale = 0.92 + (1 - (currentPage - index).abs()) * 0.08;
+                        scale = scale.clamp(0.92, 1.0);
+                        return Center(
+                          child: Transform.scale(
+                            scale: scale,
+                            child: SizedBox(
+                              width: 400,
+                              height: 520,
+                              child: SingleChildScrollView(
+                                child: index == 0
+                                    ? _buildLoginContainer()
+                                    : _buildRegisterContainer(),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -136,11 +150,7 @@ class LogRegPageState extends State<LogRegPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.blue.shade400, Colors.purple.shade300],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: const Color.fromARGB(56, 255, 255, 255),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
@@ -153,7 +163,12 @@ class LogRegPageState extends State<LogRegPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.login, size: 64, color: Colors.white),
+            Image.asset(
+            'assets/images/magus.png',
+            width: 230,
+            height: 100,
+            color: const Color.fromARGB(255, 51, 190, 255),
+            ),
           SizedBox(height: 16),
           Text(
             'Login',
