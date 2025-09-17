@@ -17,11 +17,7 @@ class DatabaseHelper {
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: _createDB,
-    );
+    return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
   Future _createDB(Database db, int version) async {
@@ -56,7 +52,6 @@ class DatabaseHelper {
         FOREIGN KEY (routine_id) REFERENCES routines(routine_id) ON DELETE CASCADE
       )
     ''');
-
   }
 
   Future close() async {
@@ -67,8 +62,6 @@ class DatabaseHelper {
   }
 }
 
-
 DocumentReference makeDatabaseReference(String userId) {
   return FirebaseFirestore.instance.collection('users').doc(userId);
 }
-

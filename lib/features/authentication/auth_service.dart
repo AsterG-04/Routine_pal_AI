@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +9,10 @@ class AuthService {
       FirebaseAuth.instance.authStateChanges();
 
   Future<bool> isNewUser(String uid) async {
-    final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get();
     if (!doc.exists) return false; // No data, treat as new user
 
     final data = doc.data();
@@ -77,24 +82,24 @@ class AuthService {
     }
   }
 
-Future<UserCredential> signInWithGoogle() async {
-  final googleSignIn = GoogleSignIn.instance;
-  await googleSignIn.initialize();
-  try {
-    final googleUser = await googleSignIn.authenticate();
-    final googleAuth = googleUser.authentication;
-    final credential = GoogleAuthProvider.credential(
-      idToken: googleAuth.idToken,
-    );
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  } on GoogleSignInException catch (e) {
-    if (e.code == GoogleSignInExceptionCode.canceled) {
-      print('Google sign-in canceled by user.');
-    } else {
-      print('Google sign-in error: $e');
+  Future<UserCredential> signInWithGoogle() async {
+    final googleSignIn = GoogleSignIn.instance;
+    await googleSignIn.initialize();
+    try {
+      final googleUser = await googleSignIn.authenticate();
+      final googleAuth = googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        print('Google sign-in canceled by user.');
+      } else {
+        print('Google sign-in error: $e');
+      }
+      rethrow; // Rethrow the exception if not handled
     }
-    rethrow; // Rethrow the exception if not handled
-  }
   }
 
   Future<void> signOut() async {
@@ -103,7 +108,10 @@ Future<UserCredential> signInWithGoogle() async {
 }
 
 Future<UserCredential> signInWithEmail(String email, String password) {
-  return FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+  return FirebaseAuth.instance.signInWithEmailAndPassword(
+    email: email,
+    password: password,
+  );
 }
 
 Future<UserCredential?> signInWithGoogle() async {
@@ -129,5 +137,3 @@ Future<UserCredential?> signInWithGoogle() async {
     return null;
   }
 }
-
-

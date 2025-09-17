@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:magus/features/authentication/auth_service.dart';
@@ -79,10 +81,10 @@ class LogRegPageState extends State<LogRegPage> {
             colors: [
               Color.fromARGB(255, 106, 163, 255), // Top color
               Color.fromARGB(255, 0, 0, 0),
-               Color.fromARGB(255, 0, 0, 0),
-               Color.fromARGB(255, 14, 87, 203), // Bottom color
+              Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 14, 87, 203), // Bottom color
             ],
-            stops: [0.0,0.45, 0.55, 1.0],
+            stops: [0.0, 0.45, 0.55, 1.0],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -113,9 +115,9 @@ class LogRegPageState extends State<LogRegPage> {
                         try {
                           currentPage =
                               _pageController.hasClients &&
-                                      _pageController.page != null
-                                  ? _pageController.page!
-                                  : _pageController.initialPage.toDouble();
+                                  _pageController.page != null
+                              ? _pageController.page!
+                              : _pageController.initialPage.toDouble();
                         } catch (_) {}
                         double scale = 1.0;
                         scale = 0.92 + (1 - (currentPage - index).abs()) * 0.08;
@@ -163,12 +165,12 @@ class LogRegPageState extends State<LogRegPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-            Image.asset(
+          Image.asset(
             'assets/images/magus.png',
             width: 230,
             height: 100,
             color: const Color.fromARGB(255, 51, 190, 255),
-            ),
+          ),
           SizedBox(height: 16),
           Text(
             'Login',

@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:magus/core/home.dart';
 import 'package:magus/features/authentication/auth_service.dart';
 import 'package:magus/features/authentication/pages/loading.dart';
-import 'package:magus/features/authentication/pages/login-register.dart';
-import 'package:magus/features/authentication/pages/newUser.dart';
+import 'package:magus/features/authentication/pages/login_register.dart';
+import 'package:magus/features/authentication/pages/new_user.dart';
 
 class AuthRoute extends StatelessWidget {
   const AuthRoute({super.key});
@@ -24,28 +24,23 @@ class AuthRoute extends StatelessWidget {
             return FutureBuilder<bool>(
               future: AuthService().isNewUser(user.uid),
               builder: (context, snapshot) {
-              if(snapshot.hasError){
-                return Scaffold(
-                  body: Center(
-                    child: Text('Error: ${snapshot.error}'),
-                  ),
-                );
-              }
-              else if(snapshot.hasData){
-                final isNewUser = snapshot.data!;
-                if(isNewUser){
-                  return NewUserWelcomePage();
+                if (snapshot.hasError) {
+                  return Scaffold(
+                    body: Center(child: Text('Error: ${snapshot.error}')),
+                  );
+                } else if (snapshot.hasData) {
+                  final isNewUser = snapshot.data!;
+                  if (isNewUser) {
+                    return NewUserWelcomePage();
+                  } else {
+                    return HomePage();
+                  }
                 } else {
-                  return HomePage();
+                  return Scaffold(
+                    body: Center(child: Text('Unexpected state')),
+                  );
                 }
-              } else {
-                return Scaffold(
-                  body: Center(
-                    child: Text('Unexpected state'),
-                  ),
-                );
-              }
-              }
+              },
             );
           }
         }
