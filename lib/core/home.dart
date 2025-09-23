@@ -39,8 +39,10 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
+                // Store the messenger before the async gap
+                final messenger = ScaffoldMessenger.of(context);
                 await DatabaseHelper.instance.database;
-                ScaffoldMessenger.of(context).showSnackBar(
+                messenger.showSnackBar(
                   const SnackBar(content: Text('Database initialized!')),
                 );
               },

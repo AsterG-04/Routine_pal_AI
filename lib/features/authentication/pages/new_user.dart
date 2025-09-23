@@ -21,7 +21,10 @@ class _NewUserWelcomePageState extends State<NewUserWelcomePage> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     try {
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) throw Exception('No user logged in');
@@ -33,14 +36,19 @@ class _NewUserWelcomePageState extends State<NewUserWelcomePage> {
         'email': user.email,
         'created_at': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
-      // TODO: Navigate to home page or next step
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Profile saved!')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Profile saved!')));
+      }
     } catch (e) {
-      setState(() { _error = 'Failed to save: $e'; });
+      setState(() {
+        _error = 'Failed to save: $e';
+      });
     } finally {
-      setState(() { _loading = false; });
+      setState(() {
+        _loading = false;
+      });
     }
   }
 
@@ -79,7 +87,9 @@ class _NewUserWelcomePageState extends State<NewUserWelcomePage> {
                   TextFormField(
                     controller: _nameController,
                     decoration: InputDecoration(labelText: 'Full Name'),
-                    validator: (v) => v == null || v.trim().isEmpty ? 'Enter your name' : null,
+                    validator: (v) => v == null || v.trim().isEmpty
+                        ? 'Enter your name'
+                        : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
@@ -87,7 +97,9 @@ class _NewUserWelcomePageState extends State<NewUserWelcomePage> {
                     decoration: InputDecoration(labelText: 'Age'),
                     keyboardType: TextInputType.number,
                     validator: (v) {
-                      if (v == null || v.trim().isEmpty) return 'Enter your age';
+                      if (v == null || v.trim().isEmpty) {
+                        return 'Enter your age';
+                      }
                       final age = int.tryParse(v.trim());
                       if (age == null || age < 0) return 'Enter a valid age';
                       return null;
@@ -95,18 +107,22 @@ class _NewUserWelcomePageState extends State<NewUserWelcomePage> {
                   ),
                   const SizedBox(height: 16),
                   DropdownButtonFormField<String>(
-                    value: _gender,
+                    initialValue: _gender,
                     items: ['Male', 'Female', 'Other']
                         .map((g) => DropdownMenuItem(value: g, child: Text(g)))
                         .toList(),
-                    onChanged: (v) => setState(() { if (v != null) _gender = v; }),
+                    onChanged: (v) => setState(() {
+                      if (v != null) _gender = v;
+                    }),
                     decoration: InputDecoration(labelText: 'Gender'),
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _occupationController,
                     decoration: InputDecoration(labelText: 'Occupation'),
-                    validator: (v) => v == null || v.trim().isEmpty ? 'Enter your occupation' : null,
+                    validator: (v) => v == null || v.trim().isEmpty
+                        ? 'Enter your occupation'
+                        : null,
                   ),
                   const SizedBox(height: 24),
                   if (_error != null) ...[

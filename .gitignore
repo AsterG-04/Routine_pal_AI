@@ -43,3 +43,14 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Android build outputs
+android/app/build/
+android/build/
+build/
+
+# Other common build artifacts
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
